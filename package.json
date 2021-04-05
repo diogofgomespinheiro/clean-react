@@ -1,0 +1,9 @@
+{
+  "name": "clean-react",
+  "version": "1.0.0",
+  "description": "React application using Clean Architecture principles",
+  "main": "index.js",
+  "repository": "git@github.com:diogofgomespinheiro/clean-react.git",
+  "author": "Diogo Pinheiro <diogo.fgomes.pinheiro@gmail.com>",
+  "license": "MIT"
+}
