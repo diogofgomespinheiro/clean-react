@@ -10,12 +10,10 @@
   "parserOptions": {
     "project": "./tsconfig-eslint.json"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier", "import"],
+  "plugins": ["react", "@typescript-eslint", "import"],
   "rules": {
-    "prettier/prettier": "error",
     "space-before-function-paren": "off",
-    "react/prop-types": "off",
-    "import/no-unresolved": "error"
+    "react/prop-types": "off"
   },
   "settings": {
     "import/parsers": {
