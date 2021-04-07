@@ -8,6 +8,9 @@
     "jsx": "react",
     "rootDir": "src",
     "baseUrl": "src",
+    "paths": {
+      "@domain/*": ["./domain/*"]
+    },
     "allowJs": true,
     "resolveJsonModule": true
   },
