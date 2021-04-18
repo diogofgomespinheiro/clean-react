@@ -9,7 +9,8 @@
     "rootDir": "src",
     "baseUrl": "src",
     "paths": {
-      "@domain/*": ["./domain/*"]
+      "@domain/*": ["./domain/*"],
+      "@data/*": ["./data/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true
