@@ -14,7 +14,8 @@
   "rules": {
     "space-before-function-paren": "off",
     "react/prop-types": "off",
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "import/prefer-default-export": "off"
   },
   "settings": {
     "import/parsers": {
