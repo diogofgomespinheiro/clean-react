@@ -7,7 +7,7 @@ import { mockAuthentication, mockAccountModel } from '@domain/test';
 
 import { HttpStatusCode } from '@data/protocols';
 import { HttpPostClientSpy } from '@data/test';
-import { RemoteAuthentication } from '@data/usecases/authentication/remote-authentication';
+import { RemoteAuthentication } from './remote-authentication';
 
 type SutTypes = {
   sut: RemoteAuthentication;
