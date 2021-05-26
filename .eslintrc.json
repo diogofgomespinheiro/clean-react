@@ -19,7 +19,8 @@
     "no-shadow": "off",
     "no-useless-constructor": "off",
     "react/prop-types": "off",
-    "space-before-function-paren": "off"
+    "space-before-function-paren": "off",
+    "class-methods-use-this": "off"
   },
   "settings": {
     "import/parsers": {
