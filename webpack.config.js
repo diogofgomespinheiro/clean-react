@@ -10,21 +10,47 @@ module.exports = {
     filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js'],
+    extensions: ['.ts', '.tsx', '.js', 'scss'],
     alias: {
       '@domain': path.join(__dirname, 'src/domain'),
       '@data': path.join(__dirname, 'src/data'),
       '@infra': path.join(__dirname, 'src/infra')
-    },
-    devServer: {
-      contentBase: './public',
-      writeToDisk: true,
-      historyApiFallback: true
-    },
-    externals: {
-      react: 'React',
-      'react-dom': 'ReactDOM'
-    },
-    plugins: [new CleanWebpackPlugin()]
-  }
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.ts(x?)$/,
+        loader: 'ts-loader',
+        exclude: /node_modules/
+      },
+      {
+        test: /\scss$/,
+        use: [
+          {
+            loader: 'style-loader'
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true
+            }
+          },
+          {
+            loader: 'sass-loader'
+          }
+        ]
+      }
+    ]
+  },
+  devServer: {
+    contentBase: './public',
+    writeToDisk: true,
+    historyApiFallback: true
+  },
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
+  },
+  plugins: [new CleanWebpackPlugin()]
 };
