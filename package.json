@@ -7,7 +7,7 @@
   "author": "Diogo Pinheiro <diogo.fgomes.pinheiro@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "webpack serve --config webpack.config.js --open",
     "test": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "npm test -- --watch",
     "test:staged": "npm test -- --findRelatedTests",
@@ -42,6 +42,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest": "27.0.1",
     "lint-staged": "11.0.0",
+    "mini-css-extract-plugin": "^1.6.0",
     "node-sass": "^6.0.0",
     "pinst": "^2.1.6",
     "prettier": "^2.2.1",

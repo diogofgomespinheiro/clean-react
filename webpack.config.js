@@ -14,7 +14,9 @@ module.exports = {
     alias: {
       '@domain': path.join(__dirname, 'src/domain'),
       '@data': path.join(__dirname, 'src/data'),
-      '@infra': path.join(__dirname, 'src/infra')
+      '@infra': path.join(__dirname, 'src/infra'),
+      '@presentation': path.join(__dirname, 'src/presentation'),
+      '@main': path.join(__dirname, 'src/main')
     }
   },
   module: {
@@ -25,7 +27,7 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\scss$/,
+        test: /\.scss$/,
         use: [
           {
             loader: 'style-loader'
