@@ -1,6 +1,6 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 
-import { LoginPage } from '@presentation/pages';
+import App from '@presentation/App';
 
-ReactDOM.render(<LoginPage />, document.getElementById('main'));
+ReactDOM.render(<App />, document.getElementById('main'));
