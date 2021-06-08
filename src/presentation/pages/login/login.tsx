@@ -27,7 +27,7 @@ const Login: React.FC = () => {
             name="password"
             placeholder="Enter your password"
           />
-          <button className={Styles.submit} type="submit">
+          <button className={Styles.submit} type="submit" disabled>
             Login
           </button>
           <span className={Styles.link}>Create an account</span>
