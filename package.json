@@ -14,8 +14,10 @@
     "test:ci": "npm test -- --coverage"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.14.4",
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
+    "@testing-library/jest-dom": "^5.13.0",
     "@testing-library/react": "^11.2.7",
     "@types/axios": "^0.14.0",
     "@types/faker": "^5.5.2",
