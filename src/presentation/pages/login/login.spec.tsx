@@ -14,5 +14,13 @@ describe('Login Page', () => {
       name: /login/i
     }) as HTMLButtonElement;
     expect(submitButton).toHaveAttribute('disabled');
+
+    const emailStatus = screen.getByTestId('email-status');
+    expect(emailStatus.title).toBe('Required field*');
+    expect(emailStatus).toHaveTextContent('🔴');
+
+    const passwordStatus = screen.getByTestId('password-status');
+    expect(passwordStatus.title).toBe('Required field*');
+    expect(passwordStatus).toHaveTextContent('🔴');
   });
 });
