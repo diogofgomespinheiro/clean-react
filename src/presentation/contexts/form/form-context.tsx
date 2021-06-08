@@ -1,18 +1,27 @@
 import * as React from 'react';
 
-type FormStateProps = {
-  isLoading: boolean;
-  errorMessage: string;
+type ErrorState = {
+  [key: string]: string;
+  main: string;
 };
 
-const FormContext = React.createContext<FormStateProps>(null);
+type FormState = {
+  isLoading: boolean;
+};
+
+type FormContextProps = {
+  errorState: ErrorState;
+  formState: FormState;
+};
+
+const FormContext = React.createContext<FormContextProps>(null);
 FormContext.displayName = 'FormContext';
 
-const FormProvider: React.FC<FormStateProps> = ({ children, ...state }) => (
+const FormProvider: React.FC<FormContextProps> = ({ children, ...state }) => (
   <FormContext.Provider value={state}>{children}</FormContext.Provider>
 );
 
-const useForm = (): FormStateProps => {
+const useForm = (): FormContextProps => {
   const context = React.useContext(FormContext);
 
   if (context === undefined || typeof context === 'undefined') {
@@ -22,4 +31,4 @@ const useForm = (): FormStateProps => {
   return context;
 };
 
-export { FormProvider, useForm, FormStateProps };
+export { FormProvider, useForm, FormContextProps, ErrorState, FormState };

@@ -6,19 +6,24 @@ import {
   FormStatus,
   Footer
 } from '@presentation/components';
-import { FormProvider, FormStateProps } from '@presentation/contexts';
+import { FormProvider, FormState, ErrorState } from '@presentation/contexts';
 import Styles from './styles.scss';
 
 const Login: React.FC = () => {
-  const [state] = React.useState<FormStateProps>({
-    isLoading: false,
-    errorMessage: ''
+  const [formState] = React.useState<FormState>({
+    isLoading: false
+  });
+
+  const [errorState] = React.useState<ErrorState>({
+    email: 'Required field*',
+    password: 'Required field*',
+    main: ''
   });
 
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <FormProvider {...state}>
+      <FormProvider errorState={errorState} formState={formState}>
         <form className={Styles.form} action="">
           <h2>Login</h2>
           <Input type="email" name="email" placeholder="Enter your email" />
