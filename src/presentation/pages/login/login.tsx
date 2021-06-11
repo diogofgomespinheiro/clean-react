@@ -6,31 +6,50 @@ import {
   FormStatus,
   Footer
 } from '@presentation/components';
-import { FormProvider, FormState, ErrorState } from '@presentation/contexts';
+import { FormProvider, FormState } from '@presentation/contexts';
+import { LoginProps } from './types';
 import Styles from './styles.scss';
 
-const Login: React.FC = () => {
-  const [formState] = React.useState<FormState>({
-    isLoading: false
+const Login: React.FC<LoginProps> = ({ validation }) => {
+  const [formState, setFormState] = React.useState<FormState>({
+    isLoading: false,
+    formData: {
+      email: {
+        error: 'Required field*',
+        value: ''
+      },
+      password: {
+        error: 'Required field*',
+        value: ''
+      }
+    },
+    error: ''
   });
 
-  const [errorState] = React.useState<ErrorState>({
-    email: 'Required field*',
-    password: 'Required field*',
-    main: ''
-  });
+  const handleInputChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    const {
+      target: { name, value }
+    } = evt;
+    validation.validate({ [name]: value });
+  };
 
   return (
     <div className={Styles.login}>
       <LoginHeader />
-      <FormProvider errorState={errorState} formState={formState}>
+      <FormProvider setFormState={setFormState} formState={formState}>
         <form className={Styles.form} action="">
           <h2>Login</h2>
-          <Input type="email" name="email" placeholder="Enter your email" />
+          <Input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={handleInputChange}
+          />
           <Input
             type="password"
             name="password"
             placeholder="Enter your password"
+            onChange={handleInputChange}
           />
           <button className={Styles.submit} type="submit" disabled>
             Login

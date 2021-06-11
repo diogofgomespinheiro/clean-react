@@ -9,18 +9,41 @@ type Props = React.DetailedHTMLProps<
 >;
 
 const Input: React.FC<Props> = props => {
-  const { errorState } = useForm();
+  const { formState, setFormState } = useForm();
+  const { formData } = formState;
 
   const getStatus = (): string => '🔴';
 
-  const getTitle = (): string => errorState[props.name];
+  const getError = (): string => formData[props.name].error;
+
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const {
+      target: { name: inputName, value: inputValue }
+    } = event;
+
+    setFormState(oldState => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        [inputName]: { ...oldState.formData[inputName], value: inputValue }
+      }
+    }));
+
+    props.onChange(event);
+  };
 
   return (
     <div className={Styles.inputWrap}>
-      <input {...props} />
+      <input
+        {...props}
+        data-testid={`${props.name}-input`}
+        onChange={handleInputChange}
+      />
       <span
         data-testid={`${props.name}-status`}
-        title={getTitle()}
+        title={getError()}
         className={Styles.status}
       >
         {getStatus()}

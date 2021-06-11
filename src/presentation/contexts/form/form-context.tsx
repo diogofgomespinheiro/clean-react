@@ -1,17 +1,19 @@
 import * as React from 'react';
 
-type ErrorState = {
-  [key: string]: string;
-  main: string;
+type FormDataProps = {
+  error: string;
+  value: string;
 };
 
 type FormState = {
   isLoading: boolean;
+  formData: Record<string, FormDataProps>;
+  error: string;
 };
 
 type FormContextProps = {
-  errorState: ErrorState;
   formState: FormState;
+  setFormState: React.Dispatch<React.SetStateAction<FormState>>;
 };
 
 const FormContext = React.createContext<FormContextProps>(null);
@@ -31,4 +33,4 @@ const useForm = (): FormContextProps => {
   return context;
 };
 
-export { FormProvider, useForm, FormContextProps, ErrorState, FormState };
+export { FormProvider, useForm, FormContextProps, FormState, FormDataProps };
