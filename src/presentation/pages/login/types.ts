@@ -1,5 +1,5 @@
-import { Validation } from '@presentation/protocols';
+import { Validator } from '@presentation/protocols';
 
 export type LoginProps = {
-  validation: Validation;
+  validator: Validator;
 };

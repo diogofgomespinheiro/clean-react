@@ -10,7 +10,7 @@ import { FormProvider, FormState } from '@presentation/contexts';
 import { LoginProps } from './types';
 import Styles from './styles.scss';
 
-const Login: React.FC<LoginProps> = ({ validation }) => {
+const Login: React.FC<LoginProps> = ({ validator }) => {
   const [formState, setFormState] = React.useState<FormState>({
     isLoading: false,
     formData: {
@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ validation }) => {
     const {
       target: { name, value }
     } = evt;
-    validation.validate({ [name]: value });
+    validator.validate({ [name]: value });
   };
 
   return (
