@@ -6,6 +6,7 @@ import {
   fireEvent,
   cleanup
 } from '@testing-library/react';
+import faker from 'faker';
 
 import { ValidatorSpy } from '@presentation/test';
 import Login from './login';
@@ -50,21 +51,23 @@ describe('Login Page', () => {
 
   it('should call validator with correct email', () => {
     const { validatorSpy } = makeSut();
+    const emailValue = faker.internet.email();
 
     const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
-    fireEvent.input(emailInput, { target: { value: 'any_email' } });
+    fireEvent.input(emailInput, { target: { value: emailValue } });
     expect(validatorSpy.fieldName).toBe('email');
-    expect(validatorSpy.fieldValue).toBe('any_email');
+    expect(validatorSpy.fieldValue).toBe(emailValue);
   });
 
   it('should call validator with correct password', () => {
     const { validatorSpy } = makeSut();
+    const passwordValue = faker.internet.password();
 
     const passwordInput = screen.getByTestId(
       'password-input'
     ) as HTMLInputElement;
-    fireEvent.input(passwordInput, { target: { value: 'any_password' } });
+    fireEvent.input(passwordInput, { target: { value: passwordValue } });
     expect(validatorSpy.fieldName).toBe('password');
-    expect(validatorSpy.fieldValue).toBe('any_password');
+    expect(validatorSpy.fieldValue).toBe(passwordValue);
   });
 });
