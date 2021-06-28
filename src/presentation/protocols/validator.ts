@@ -1,3 +1,3 @@
 export interface Validator {
-  validate(input: Record<string, unknown>): string;
+  validate(fieldName: string, fieldValue: string): string;
 }

@@ -30,7 +30,7 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
     const {
       target: { name, value }
     } = evt;
-    validator.validate({ [name]: value });
+    validator.validate(name, value);
   };
 
   return (
