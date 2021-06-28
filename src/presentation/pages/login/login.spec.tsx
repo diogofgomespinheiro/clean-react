@@ -7,22 +7,8 @@ import {
   cleanup
 } from '@testing-library/react';
 
-import { Validator } from '@presentation/protocols';
+import { ValidatorSpy } from '@presentation/test';
 import Login from './login';
-
-class ValidatorSpy implements Validator {
-  errorMessage: string;
-
-  fieldName: string;
-
-  fieldValue: string;
-
-  validate(fieldName: string, fieldValue: string): string {
-    this.fieldName = fieldName;
-    this.fieldValue = fieldValue;
-    return this.errorMessage;
-  }
-}
 
 type SutTypes = {
   sut: RenderResult;
