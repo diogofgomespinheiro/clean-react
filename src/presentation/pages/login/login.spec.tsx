@@ -70,4 +70,16 @@ describe('Login Page', () => {
     expect(validatorSpy.fieldName).toBe('password');
     expect(validatorSpy.fieldValue).toBe(passwordValue);
   });
+
+  it('should show email error if validations fails', () => {
+    const { validatorSpy } = makeSut();
+    const errorMessage = faker.random.words();
+    validatorSpy.errorMessage = errorMessage;
+
+    const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
+    fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
+    const emailStatus = screen.getByTestId('email-status');
+    expect(emailStatus.title).toBe(errorMessage);
+    expect(emailStatus).toHaveTextContent('🔴');
+  });
 });

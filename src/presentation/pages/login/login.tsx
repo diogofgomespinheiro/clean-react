@@ -30,7 +30,16 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
     const {
       target: { name, value }
     } = evt;
-    validator.validate(name, value);
+    setFormState(oldState => ({
+      ...oldState,
+      formData: {
+        ...oldState.formData,
+        [name]: {
+          ...oldState.formData[name],
+          error: validator.validate(name, value)
+        }
+      }
+    }));
   };
 
   return (
