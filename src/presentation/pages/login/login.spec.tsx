@@ -109,4 +109,19 @@ describe('Login Page', () => {
     expect(emailStatus.title).toBe("Everything's good!");
     expect(emailStatus).toHaveTextContent('🟢');
   });
+
+  it('should show valid password state if validation succeeds', () => {
+    makeSut();
+
+    const passwordInput = screen.getByTestId(
+      'password-input'
+    ) as HTMLInputElement;
+    fireEvent.input(passwordInput, {
+      target: { value: faker.internet.password() }
+    });
+
+    const passwordStatus = screen.getByTestId('password-status');
+    expect(passwordStatus.title).toBe("Everything's good!");
+    expect(passwordStatus).toHaveTextContent('🟢');
+  });
 });
