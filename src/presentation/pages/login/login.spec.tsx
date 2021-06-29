@@ -82,4 +82,20 @@ describe('Login Page', () => {
     expect(emailStatus.title).toBe(errorMessage);
     expect(emailStatus).toHaveTextContent('🔴');
   });
+
+  it('should show password error if validations fails', () => {
+    const { validatorSpy } = makeSut();
+    const errorMessage = faker.random.words();
+    validatorSpy.errorMessage = errorMessage;
+
+    const passwordInput = screen.getByTestId(
+      'password-input'
+    ) as HTMLInputElement;
+    fireEvent.input(passwordInput, {
+      target: { value: faker.internet.email() }
+    });
+    const passwordStatus = screen.getByTestId('password-status');
+    expect(passwordStatus.title).toBe(errorMessage);
+    expect(passwordStatus).toHaveTextContent('🔴');
+  });
 });
