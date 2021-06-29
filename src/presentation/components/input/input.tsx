@@ -12,9 +12,10 @@ const Input: React.FC<Props> = props => {
   const { formState, setFormState } = useForm();
   const { formData } = formState;
 
-  const getStatus = (): string => '🔴';
+  const getStatus = (): string => (formData[props.name].error ? '🔴' : '🟢');
 
-  const getError = (): string => formData[props.name].error;
+  const getTitle = (): string =>
+    formData[props.name].error || "Everything's good!";
 
   const handleInputChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -43,7 +44,7 @@ const Input: React.FC<Props> = props => {
       />
       <span
         data-testid={`${props.name}-status`}
-        title={getError()}
+        title={getTitle()}
         className={Styles.status}
       >
         {getStatus()}
