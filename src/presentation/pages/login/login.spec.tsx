@@ -141,4 +141,23 @@ describe('Login Page', () => {
     }) as HTMLButtonElement;
     expect(submitButton.disabled).toBe(false);
   });
+
+  it('should show spinner on submit', () => {
+    makeSut();
+
+    fireEvent.input(screen.getByTestId('email-input'), {
+      target: { value: faker.internet.email() }
+    });
+    fireEvent.input(screen.getByTestId('password-input'), {
+      target: { value: faker.internet.password() }
+    });
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /login/i
+      })
+    );
+
+    const spinner = screen.getByTestId('spinner');
+    expect(spinner).toBeInTheDocument();
+  });
 });
