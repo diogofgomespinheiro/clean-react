@@ -9,11 +9,26 @@ import {
 import faker from 'faker';
 
 import { ValidatorSpy } from '@presentation/test';
+import { Authentication, AuthenticationParams } from '@domain/usecases';
+import { AccountModel } from '@domain/models';
+import { mockAccountModel } from '@domain/test';
 import Login from './login';
+
+class AuthenticationSpy implements Authentication {
+  account = mockAccountModel();
+
+  params: AuthenticationParams;
+
+  async auth(params: AuthenticationParams): Promise<AccountModel> {
+    this.params = params;
+    return Promise.resolve(this.account);
+  }
+}
 
 type SutTypes = {
   sut: RenderResult;
   validatorSpy: ValidatorSpy;
+  authenticationSpy: AuthenticationSpy;
 };
 
 type SutParams = {
@@ -22,12 +37,16 @@ type SutParams = {
 
 const makeSut = (params?: SutParams): SutTypes => {
   const validatorSpy = new ValidatorSpy();
+  const authenticationSpy = new AuthenticationSpy();
   validatorSpy.errorMessage = params?.validationError;
-  const sut = render(<Login validator={validatorSpy} />);
+  const sut = render(
+    <Login validator={validatorSpy} authenticator={authenticationSpy} />
+  );
 
   return {
     sut,
-    validatorSpy
+    validatorSpy,
+    authenticationSpy
   };
 };
 
@@ -159,5 +178,28 @@ describe('Login Page', () => {
 
     const spinner = screen.getByTestId('spinner');
     expect(spinner).toBeInTheDocument();
+  });
+
+  it('should call authentication with correct values', () => {
+    const { authenticationSpy } = makeSut();
+    const email = faker.internet.email();
+    const password = faker.internet.password();
+
+    fireEvent.input(screen.getByTestId('email-input'), {
+      target: { value: email }
+    });
+    fireEvent.input(screen.getByTestId('password-input'), {
+      target: { value: password }
+    });
+    fireEvent.click(
+      screen.getByRole('button', {
+        name: /login/i
+      })
+    );
+
+    expect(authenticationSpy.params).toEqual({
+      email,
+      password
+    });
   });
 });
