@@ -48,11 +48,17 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
         formState.error
     );
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+
+    setFormState(oldState => ({ ...oldState, isLoading: true }));
+  };
+
   return (
     <div className={Styles.login}>
       <LoginHeader />
       <FormProvider setFormState={setFormState} formState={formState}>
-        <form className={Styles.form} action="">
+        <form className={Styles.form} onSubmit={handleSubmit}>
           <h2>Login</h2>
           <Input
             type="email"
