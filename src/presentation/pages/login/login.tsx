@@ -10,7 +10,7 @@ import { FormProvider, FormState } from '@presentation/contexts';
 import { LoginProps } from './types';
 import Styles from './styles.scss';
 
-const Login: React.FC<LoginProps> = ({ validator }) => {
+const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
   const [formState, setFormState] = React.useState<FormState>({
     isLoading: false,
     formData: {
@@ -48,10 +48,16 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
         formState.error
     );
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+  const handleSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
-
     setFormState(oldState => ({ ...oldState, isLoading: true }));
+
+    const {
+      formData: { email, password }
+    } = formState;
+    await authenticator.auth({ email: email.value, password: password.value });
   };
 
   return (
