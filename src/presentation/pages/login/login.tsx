@@ -42,6 +42,12 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
     }));
   };
 
+  const isFormValid = (): boolean =>
+    Boolean(
+      Object.values(formState.formData).find(item => item.error) ||
+        formState.error
+    );
+
   return (
     <div className={Styles.login}>
       <LoginHeader />
@@ -60,7 +66,11 @@ const Login: React.FC<LoginProps> = ({ validator }) => {
             placeholder="Enter your password"
             onChange={handleInputChange}
           />
-          <button className={Styles.submit} type="submit" disabled>
+          <button
+            className={Styles.submit}
+            type="submit"
+            disabled={isFormValid()}
+          >
             Login
           </button>
           <span className={Styles.link}>Create an account</span>
