@@ -16,8 +16,13 @@ type SutTypes = {
   validatorSpy: ValidatorSpy;
 };
 
-const makeSut = (): SutTypes => {
+type SutParams = {
+  validationError?: string;
+};
+
+const makeSut = (params?: SutParams): SutTypes => {
   const validatorSpy = new ValidatorSpy();
+  validatorSpy.errorMessage = params?.validationError;
   const sut = render(<Login validator={validatorSpy} />);
 
   return {
@@ -72,21 +77,17 @@ describe('Login Page', () => {
   });
 
   it('should show email error if validations fails', () => {
-    const { validatorSpy } = makeSut();
-    const errorMessage = faker.random.words();
-    validatorSpy.errorMessage = errorMessage;
+    const { validatorSpy } = makeSut({ validationError: faker.random.words() });
 
     const emailInput = screen.getByTestId('email-input') as HTMLInputElement;
     fireEvent.input(emailInput, { target: { value: faker.internet.email() } });
     const emailStatus = screen.getByTestId('email-status');
-    expect(emailStatus.title).toBe(errorMessage);
+    expect(emailStatus.title).toBe(validatorSpy.errorMessage);
     expect(emailStatus).toHaveTextContent('🔴');
   });
 
   it('should show password error if validations fails', () => {
-    const { validatorSpy } = makeSut();
-    const errorMessage = faker.random.words();
-    validatorSpy.errorMessage = errorMessage;
+    const { validatorSpy } = makeSut({ validationError: faker.random.words() });
 
     const passwordInput = screen.getByTestId(
       'password-input'
@@ -95,7 +96,7 @@ describe('Login Page', () => {
       target: { value: faker.internet.email() }
     });
     const passwordStatus = screen.getByTestId('password-status');
-    expect(passwordStatus.title).toBe(errorMessage);
+    expect(passwordStatus.title).toBe(validatorSpy.errorMessage);
     expect(passwordStatus).toHaveTextContent('🔴');
   });
 
