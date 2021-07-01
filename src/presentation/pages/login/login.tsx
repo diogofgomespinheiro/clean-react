@@ -52,14 +52,24 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    if (formState.isLoading || !isFormValid()) return;
+    try {
+      if (formState.isLoading || !isFormValid()) return;
+      setFormState(oldState => ({ ...oldState, isLoading: true }));
 
-    setFormState(oldState => ({ ...oldState, isLoading: true }));
-
-    const {
-      formData: { email, password }
-    } = formState;
-    await authenticator.auth({ email: email.value, password: password.value });
+      const {
+        formData: { email, password }
+      } = formState;
+      await authenticator.auth({
+        email: email.value,
+        password: password.value
+      });
+    } catch (error) {
+      setFormState(oldState => ({
+        ...oldState,
+        isLoading: false,
+        error: error.message
+      }));
+    }
   };
 
   return (
