@@ -7,6 +7,7 @@ import {
   cleanup,
   waitFor
 } from '@testing-library/react';
+import 'jest-localstorage-mock';
 import faker from 'faker';
 
 import { AuthenticationSpy, ValidatorSpy } from '@presentation/test';
@@ -74,6 +75,7 @@ const verifyInputStatus = (
 
 describe('Login Page', () => {
   afterEach(cleanup);
+  beforeEach(() => localStorage.clear());
 
   it('should start with initial state', () => {
     makeSut();
@@ -196,5 +198,16 @@ describe('Login Page', () => {
     await waitFor(() => screen.getByTestId('error-wrap'));
     expect(screen.getByTestId('main-error').textContent).toBe(error.message);
     expect(spinner).not.toBeInTheDocument();
+  });
+
+  it('should add acessToken to localStorage on success', async () => {
+    const { authenticationSpy } = makeSut();
+
+    simulateValidSubmit();
+    await waitFor(() => screen.getByTestId('form'));
+    expect(localStorage.setItem).toHaveBeenCalledWith(
+      'accessToken',
+      authenticationSpy.account.accessToken
+    );
   });
 });
