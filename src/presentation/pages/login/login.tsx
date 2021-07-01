@@ -43,16 +43,16 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
   };
 
   const isFormValid = (): boolean =>
-    Boolean(
+    !(
       Object.values(formState.formData).find(item => item.error) ||
-        formState.error
+      formState.error
     );
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-    if (formState.isLoading) return;
+    if (formState.isLoading || !isFormValid()) return;
 
     setFormState(oldState => ({ ...oldState, isLoading: true }));
 
@@ -66,7 +66,11 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
     <div className={Styles.login}>
       <LoginHeader />
       <FormProvider setFormState={setFormState} formState={formState}>
-        <form className={Styles.form} onSubmit={handleSubmit}>
+        <form
+          data-testid="form"
+          className={Styles.form}
+          onSubmit={handleSubmit}
+        >
           <h2>Login</h2>
           <Input
             type="email"
@@ -83,7 +87,7 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
           <button
             className={Styles.submit}
             type="submit"
-            disabled={isFormValid()}
+            disabled={!isFormValid()}
           >
             Login
           </button>
