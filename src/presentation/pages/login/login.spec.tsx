@@ -43,17 +43,21 @@ const fireInputEvent = (id: string, value: string): void => {
   });
 };
 
-const simulateValidSubmit = (
-  email = faker.internet.email(),
-  password = faker.internet.password()
-): void => {
+const fireButtonClickEvent = (): void => {
   const submitButton = screen.getByRole('button', {
     name: /login/i
   });
 
+  fireEvent.click(submitButton);
+};
+
+const simulateValidSubmit = (
+  email = faker.internet.email(),
+  password = faker.internet.password()
+): void => {
   fireInputEvent('email-input', email);
   fireInputEvent('password-input', password);
-  fireEvent.click(submitButton);
+  fireButtonClickEvent();
 };
 
 const verifyInputStatus = (
@@ -156,5 +160,14 @@ describe('Login Page', () => {
       email,
       password
     });
+  });
+
+  it('should call authentication only once', () => {
+    const { authenticationSpy } = makeSut();
+
+    simulateValidSubmit();
+    fireButtonClickEvent();
+
+    expect(authenticationSpy.callsCount).toBe(1);
   });
 });
