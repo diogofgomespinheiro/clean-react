@@ -4,11 +4,13 @@ import {
   RenderResult,
   screen,
   fireEvent,
-  cleanup
+  cleanup,
+  waitFor
 } from '@testing-library/react';
 import faker from 'faker';
 
 import { AuthenticationSpy, ValidatorSpy } from '@presentation/test';
+import { InvalidCredentialsError } from '@domain/errors';
 import Login from './login';
 
 type SutTypes = {
@@ -178,5 +180,21 @@ describe('Login Page', () => {
     fireInputEvent('email-input', faker.internet.email());
     fireEvent.submit(screen.getByTestId('form'));
     expect(authenticationSpy.callsCount).toBe(0);
+  });
+
+  it('should present error if Authentication fails  ', async () => {
+    const { authenticationSpy } = makeSut();
+    const error = new InvalidCredentialsError();
+    jest
+      .spyOn(authenticationSpy, 'auth')
+      .mockReturnValue(Promise.reject(error));
+
+    simulateValidSubmit();
+    const spinner = screen.getByTestId('spinner');
+    expect(spinner).toBeInTheDocument();
+
+    await waitFor(() => screen.getByTestId('error-wrap'));
+    expect(screen.getByTestId('main-error').textContent).toBe(error.message);
+    expect(spinner).not.toBeInTheDocument();
   });
 });
