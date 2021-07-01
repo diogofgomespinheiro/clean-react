@@ -52,6 +52,8 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
+    if (formState.isLoading) return;
+
     setFormState(oldState => ({ ...oldState, isLoading: true }));
 
     const {
