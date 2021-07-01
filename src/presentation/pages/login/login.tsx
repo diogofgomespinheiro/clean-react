@@ -56,13 +56,14 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
       if (formState.isLoading || !isFormValid()) return;
       setFormState(oldState => ({ ...oldState, isLoading: true }));
 
-      const {
-        formData: { email, password }
-      } = formState;
-      await authenticator.auth({
+      const { formData } = formState;
+      const { email, password } = formData;
+      const account = await authenticator.auth({
         email: email.value,
         password: password.value
       });
+
+      localStorage.setItem('accessToken', account.accessToken);
     } catch (error) {
       setFormState(oldState => ({
         ...oldState,
