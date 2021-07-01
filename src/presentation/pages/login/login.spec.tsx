@@ -162,12 +162,21 @@ describe('Login Page', () => {
     });
   });
 
-  it('should call authentication only once', () => {
+  it('should call Authentication only once', () => {
     const { authenticationSpy } = makeSut();
 
     simulateValidSubmit();
     fireButtonClickEvent();
 
     expect(authenticationSpy.callsCount).toBe(1);
+  });
+
+  it('should not call Authentication if form is invalid', () => {
+    const { authenticationSpy } = makeSut({
+      validationError: faker.random.word()
+    });
+    fireInputEvent('email-input', faker.internet.email());
+    fireEvent.submit(screen.getByTestId('form'));
+    expect(authenticationSpy.callsCount).toBe(0);
   });
 });
