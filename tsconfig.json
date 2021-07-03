@@ -13,7 +13,8 @@
       "@data/*": ["./data/*"],
       "@infra/*": ["./infra/*"],
       "@presentation/*": ["./presentation/*"],
-      "@main/*": ["./main/*"]
+      "@main/*": ["./main/*"],
+      "@validation/*": ["./validation/*"]
     },
     "allowJs": true,
     "resolveJsonModule": true
