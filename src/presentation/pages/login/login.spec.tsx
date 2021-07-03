@@ -45,8 +45,8 @@ const makeSut = (params?: SutParams): SutTypes => {
   };
 };
 
-const fireInputEvent = (id: string, value: string): void => {
-  const input = screen.getByTestId(id) as HTMLInputElement;
+const fireInputEvent = (fieldName: string, value: string): void => {
+  const input = screen.getByTestId(`${fieldName}-input`) as HTMLInputElement;
   fireEvent.input(input, {
     target: { value }
   });
@@ -64,8 +64,8 @@ const simulateValidSubmit = (
   email = faker.internet.email(),
   password = faker.internet.password()
 ): void => {
-  fireInputEvent('email-input', email);
-  fireInputEvent('password-input', password);
+  fireInputEvent('email', email);
+  fireInputEvent('password', password);
   fireButtonClickEvent();
 };
 
@@ -101,7 +101,7 @@ describe('Login Page', () => {
   it('should call validator with correct email', () => {
     const { validatorSpy } = makeSut();
     const emailValue = faker.internet.email();
-    fireInputEvent('email-input', emailValue);
+    fireInputEvent('email', emailValue);
 
     expect(validatorSpy.fieldName).toBe('email');
     expect(validatorSpy.fieldValue).toBe(emailValue);
@@ -110,7 +110,7 @@ describe('Login Page', () => {
   it('should call validator with correct password', () => {
     const { validatorSpy } = makeSut();
     const passwordValue = faker.internet.password();
-    fireInputEvent('password-input', passwordValue);
+    fireInputEvent('password', passwordValue);
 
     expect(validatorSpy.fieldName).toBe('password');
     expect(validatorSpy.fieldValue).toBe(passwordValue);
@@ -118,32 +118,32 @@ describe('Login Page', () => {
 
   it('should show email error if validations fails', () => {
     const { validatorSpy } = makeSut({ validationError: faker.random.words() });
-    fireInputEvent('email-input', faker.internet.email());
+    fireInputEvent('email', faker.internet.email());
     verifyInputStatus('email', validatorSpy.errorMessage);
   });
 
   it('should show password error if validations fails', () => {
     const { validatorSpy } = makeSut({ validationError: faker.random.words() });
-    fireInputEvent('password-input', faker.internet.password());
+    fireInputEvent('password', faker.internet.password());
     verifyInputStatus('password', validatorSpy.errorMessage);
   });
 
   it('should show valid email state if validation succeeds', () => {
     makeSut();
-    fireInputEvent('email-input', faker.internet.email());
+    fireInputEvent('email', faker.internet.email());
     verifyInputStatus('email', "Everything's good!", '🟢');
   });
 
   it('should show valid password state if validation succeeds', () => {
     makeSut();
-    fireInputEvent('password-input', faker.internet.password());
+    fireInputEvent('password', faker.internet.password());
     verifyInputStatus('password', "Everything's good!", '🟢');
   });
 
   it('should enable submit button if form is valid', () => {
     makeSut();
-    fireInputEvent('email-input', faker.internet.email());
-    fireInputEvent('password-input', faker.internet.password());
+    fireInputEvent('email', faker.internet.email());
+    fireInputEvent('password', faker.internet.password());
 
     const submitButton = screen.getByRole('button', {
       name: /login/i
@@ -185,7 +185,7 @@ describe('Login Page', () => {
     const { authenticationSpy } = makeSut({
       validationError: faker.random.word()
     });
-    fireInputEvent('email-input', faker.internet.email());
+    fireInputEvent('email', faker.internet.email());
     fireEvent.submit(screen.getByTestId('form'));
     expect(authenticationSpy.callsCount).toBe(0);
   });
