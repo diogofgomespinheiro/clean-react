@@ -5,9 +5,12 @@ export class MinLengthValidator implements FieldValidator {
   constructor(readonly field: string, private readonly minLength: number) {}
 
   validate(value: string): Error {
-    return new InvalidFieldError(
-      this.field,
-      `This field must have at least ${this.minLength} characters`
+    return (
+      !(value.length >= this.minLength) &&
+      new InvalidFieldError(
+        this.field,
+        `This field must have at least ${this.minLength} characters`
+      )
     );
   }
 }
