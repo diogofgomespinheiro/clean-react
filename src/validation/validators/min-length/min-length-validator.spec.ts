@@ -30,4 +30,11 @@ describe('MinLengthValidato', () => {
       )
     );
   });
+
+  it('should return falsy if field is valid', () => {
+    const { minLength, sut } = makeSut();
+
+    const error = sut.validate(faker.datatype.string(minLength));
+    expect(error).toBeFalsy();
+  });
 });
