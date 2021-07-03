@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 
 import {
   LoginHeader,
@@ -102,7 +103,9 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
           >
             Login
           </button>
-          <span className={Styles.link}>Create an account</span>
+          <Link to="/signup" className={Styles.link}>
+            Create an account
+          </Link>
           <FormStatus />
         </form>
       </FormProvider>
