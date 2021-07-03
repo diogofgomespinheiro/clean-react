@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import {
   LoginHeader,
@@ -12,6 +12,7 @@ import { LoginProps } from './types';
 import Styles from './styles.scss';
 
 const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
+  const history = useHistory();
   const [formState, setFormState] = React.useState<FormState>({
     isLoading: false,
     formData: {
@@ -65,6 +66,7 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
       });
 
       localStorage.setItem('accessToken', account.accessToken);
+      history.replace('/');
     } catch (error) {
       setFormState(oldState => ({
         ...oldState,
