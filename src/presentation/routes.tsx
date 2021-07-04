@@ -1,12 +1,15 @@
 import * as React from 'react';
 import { Switch, Route } from 'react-router-dom';
 
-import { LoginPage } from '@presentation/pages';
 import '@presentation/styles/global.scss';
 
-const Routes: React.FC = () => (
+type Props = {
+  makeLogin: React.FC;
+};
+
+const Routes: React.FC<Props> = ({ makeLogin }) => (
   <Switch>
-    <Route path="/login" component={LoginPage} />
+    <Route path="/login" component={makeLogin} />
   </Switch>
 );
 

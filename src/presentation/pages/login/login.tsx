@@ -45,10 +45,7 @@ const Login: React.FC<LoginProps> = ({ authenticator, validator }) => {
   };
 
   const isFormValid = (): boolean =>
-    !(
-      Object.values(formState.formData).find(item => item.error) ||
-      formState.error
-    );
+    !Object.values(formState.formData).find(item => item.error);
 
   const handleSubmit = async (
     event: React.FormEvent<HTMLFormElement>
