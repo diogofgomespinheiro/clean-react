@@ -11,7 +11,7 @@ type SutTypes = {
 
 const makeSut = (
   fieldName = faker.random.word(),
-  minLength = faker.datatype.number(10)
+  minLength = faker.datatype.number({ min: 2, max: 10 })
 ): SutTypes => ({
   fieldName,
   minLength,
