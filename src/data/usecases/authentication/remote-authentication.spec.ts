@@ -1,4 +1,6 @@
 import faker from '@faker-js/faker';
+
+import { mockAuthenticationParams } from '@/domain/test';
 import { HttpPostClientSpy } from '@/data/test';
 
 import { RemoteAuthentication } from './remote-authentication';
@@ -23,7 +25,16 @@ describe('RemoteAuthentication', () => {
 		const url = faker.internet.url();
 		const { sut, httpPostClientSpy } = makeSut(url);
 
-		await sut.auth();
+		await sut.auth(mockAuthenticationParams());
 		expect(httpPostClientSpy.url).toBe(url);
+	});
+
+	it('should call HttpPostClient with the correct body', async () => {
+		const { sut, httpPostClientSpy } = makeSut();
+
+		const params = mockAuthenticationParams();
+		await sut.auth(params);
+
+		expect(httpPostClientSpy.body).toEqual(params);
 	});
 });
