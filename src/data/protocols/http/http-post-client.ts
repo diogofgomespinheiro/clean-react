@@ -1,5 +1,6 @@
 export type HttpPostParams = {
-	url: string;
+	url?: string;
+	body?: Record<string, unknown>;
 };
 
 export interface HttpPostClient {
