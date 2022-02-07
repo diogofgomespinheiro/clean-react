@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 
-import { InvalidCredentialsError } from '@/domain/errors';
+import { InvalidCredentialsError, UnexpectedError } from '@/domain/errors';
 import { mockAuthenticationParams } from '@/domain/test';
 import { HttpStatusCode } from '@/data/protocols';
 import { HttpPostClientSpy } from '@/data/test';
@@ -40,7 +40,7 @@ describe('RemoteAuthentication', () => {
 		expect(httpPostClientSpy.body).toEqual(params);
 	});
 
-	it('should throw invalid credentials error if HttpPostClient returns 401', async () => {
+	it('should throw InvalidCredentialsError if HttpPostClient returns 401', async () => {
 		const { sut, httpPostClientSpy } = makeSut();
 		httpPostClientSpy.response = {
 			statusCode: HttpStatusCode.unauthorized,
@@ -48,5 +48,15 @@ describe('RemoteAuthentication', () => {
 
 		const promise = sut.auth(mockAuthenticationParams());
 		await expect(promise).rejects.toThrow(new InvalidCredentialsError());
+	});
+
+	it('should throw UnexpectedError if HttpPostClient returns 500', async () => {
+		const { sut, httpPostClientSpy } = makeSut();
+		httpPostClientSpy.response = {
+			statusCode: HttpStatusCode.serverError,
+		};
+
+		const promise = sut.auth(mockAuthenticationParams());
+		await expect(promise).rejects.toThrow(new UnexpectedError());
 	});
 });
